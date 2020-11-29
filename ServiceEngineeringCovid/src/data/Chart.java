@@ -160,7 +160,7 @@ public class Chart {
 
         BorderPane root = main.createPaneWithMenu(stage);
         root.setCenter(lineChart);
-        Scene scene = new Scene(root, 1400, 700);
+        Scene scene = new Scene(root, 1300, 700);
         lineChart.getData().addAll(series1, series2, series3, series4);
         stage.setScene(scene);
         stage.show();
