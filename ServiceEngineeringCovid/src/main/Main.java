@@ -226,6 +226,7 @@ public class Main extends Application {
                         this.setStyle("-fx-background-color: orange;");
                     } else if (50 < item && item <= 100) {
                         this.setStyle("-fx-background-color: yellow;");
+                        this.setTextFill(Color.BLACK);
                     } else {
                         this.setStyle("-fx-background-color: green;");
                     }
