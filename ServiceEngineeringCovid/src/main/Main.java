@@ -78,7 +78,7 @@ public class Main extends Application {
         MenuItem district = new MenuItem("Bezirke");
         MenuItem fs = new MenuItem("Bundesländer");
         MenuItem back = new MenuItem("Start");
-        MenuItem line = new MenuItem("Liniendiagramm");
+        //MenuItem line = new MenuItem("Liniendiagramm");
         MenuItem pie = new MenuItem("Kreisdiagramm");
 
         //pie.setOnAction(actionEvent -> pieChart(stage, dataBean.getRepublic().getStates().get(3)));
