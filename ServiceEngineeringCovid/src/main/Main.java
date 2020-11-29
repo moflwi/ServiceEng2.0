@@ -31,7 +31,13 @@ public class Main extends Application {
         dataBean = csvReader.setUp();
         chart = new Chart(dataBean);
         BorderPane root = createPaneWithMenu(primaryStage);
-        
+        Scene scene =  new Scene(root, 1200, 600);
+        primaryStage.setScene(scene);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX(primaryScreenBounds.getMinX());
+        primaryStage.setY(primaryScreenBounds.getMinY());
+        primaryStage.setWidth(primaryScreenBounds.getWidth());
+        primaryStage.setHeight(primaryScreenBounds.getHeight());
 
         TableView<FederalState> tableView = new TableView();
 
@@ -59,13 +65,6 @@ public class Main extends Application {
         }
 
         root.setCenter(tableView);
-        Scene scene = new Scene(root, 1300, 700);
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        primaryStage.setX(primaryScreenBounds.getMinX());
-        primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
-        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
@@ -75,23 +74,16 @@ public class Main extends Application {
         MenuBar menuBar = new MenuBar();
         Menu jMenu = new Menu("Ansicht");
         Menu jMenu2 = new Menu("Tool");
-        Menu jMenu3 = new Menu("Chartstyle");
 
 
         MenuItem district = new MenuItem("Bezirke");
         MenuItem fs = new MenuItem("Bundesländer");
         MenuItem back = new MenuItem("Start");
-        //MenuItem line = new MenuItem("Liniendiagramm");
-        MenuItem pie = new MenuItem("Kreisdiagramm");
-
-        //pie.setOnAction(actionEvent -> pieChart(stage, dataBean.getRepublic().getStates().get(3)));
 
         district.setOnAction(actionEvent -> {
             try {
                 districtListView(stage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         });
@@ -111,14 +103,13 @@ public class Main extends Application {
         });
         jMenu.getItems().addAll(district, fs);
         jMenu2.getItems().add(back);
-       /* jMenu3.getItems().addAll(line, pie);*/
-        menuBar.getMenus().addAll(jMenu, jMenu2, jMenu3);
+        menuBar.getMenus().addAll(jMenu, jMenu2);
         root.setTop(menuBar);
         return root;
     }
 
-    private FederalState federalStateList(Stage stage, FederalState federalState) {
-        TableView<FederalState.FederalStateNode> tableView = new TableView();
+    private void federalStateList(Stage stage, FederalState federalState) {
+        TableView<FederalState.FederalStateNode> tableView = new TableView<>();
 
         TableColumn<FederalState.FederalStateNode, String> tableColumnOne = new TableColumn<>("Bundesland");
         tableColumnOne.setCellValueFactory(new PropertyValueFactory<>("stateName"));
@@ -143,12 +134,12 @@ public class Main extends Application {
 
         tableView.setRowFactory(tv -> {
             TableRow<FederalState.FederalStateNode> row = new TableRow<>();
-            stage.setTitle("Covid-Analyse-State");
+            stage.setTitle("Covid-19 Analyse Bundesland");
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    stage.setTitle("Covid-Analyse-State-Detail");
+                    stage.setTitle("Covid-19 Analyse Bundesland-Detail");
                     chart.showFederalStateStatistics(stage, federalState);
-                    stage.setTitle("Covid-Analyse-State-Detail" + " for " + federalState.getStateName());
+                    stage.setTitle("Covid-19 Analyse Bundesland-Detail" + " für " + federalState.getStateName());
                 }
             });
             return row;
@@ -162,12 +153,10 @@ public class Main extends Application {
         Scene scene = new Scene(root, 1200, 600);
         stage.setScene(scene);
         stage.show();
-
-        return federalState;
     }
 
     private void districtListView(Stage stage) throws IOException, ParseException {
-        TableView<District> tableView = new TableView();
+        TableView<District> tableView = new TableView<>();
 
         TableColumn<District, String> tableColumnOne = new TableColumn<>("Bezirk");
         tableColumnOne.setCellValueFactory(new PropertyValueFactory<>("districtName"));
@@ -200,12 +189,12 @@ public class Main extends Application {
 
         tableView.setRowFactory(tv -> {
             TableRow<District> row = new TableRow<>();
-            stage.setTitle("Covid-Analyse-Districts");
+            stage.setTitle("Covid-19 Analyse Bezirk");
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    stage.setTitle("Covid-Analyse-Districts-Detail");
+                    stage.setTitle("Covid-19 Analyse Bezirk-Detail");
                     chart.detailView(stage, row.getItem());
-                    stage.setTitle("Covid-Analyse-Districts-Detail" + " for " + row.getItem().getDistrictName());
+                    stage.setTitle("Covid-19 Analyse Bezirk-Detail" + " für " + row.getItem().getDistrictName());
                 }
             });
             return row;
@@ -245,30 +234,8 @@ public class Main extends Application {
         stage.show();
     }
 
-
-   /* private void pieChart(Stage stage, FederalState federalState) {
-
-        BorderPane root = createPaneWithMenu(stage);
-
-        PieChart pieChart = new PieChart();
-        PieChart.Data slice1 = new PieChart.Data("Krankenhaus gesamt", federalState.getFederalStateNodeList().get(federalState.getFederalStateNodeList().size() - 1).getNrHospital()
-                + federalState.getFederalStateNodeList().get(federalState.getFederalStateNodeList().size() - 1).getNrICU());
-        PieChart.Data slice2 = new PieChart.Data("ICU", federalState.getFederalStateNodeList().get(federalState.getFederalStateNodeList().size()-1).getNrICU());
-
-        pieChart.getData().addAll(slice1, slice2);
-        pieChart.setLegendSide(Side.LEFT);
-        root.setCenter(pieChart);
-        Scene scene = new Scene(root, 1400, 700);
-        stage.setScene(scene);
-        stage.show();
-
-    }*/
-
-
     public static void main(String[] args) {
         launch(args);
     }
-
-
 
 }

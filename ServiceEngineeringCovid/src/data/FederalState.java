@@ -2,7 +2,6 @@ package data;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumMap;
 
 public class FederalState {
     private ArrayList<District> districtArrayList;
