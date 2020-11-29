@@ -22,13 +22,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //todo mvc
+        
         primaryStage.setTitle("Covid-Analyse");
         CSVReader csvReader = new CSVReader();
         dataBean = csvReader.setUp();
         chart = new Chart(dataBean);
         BorderPane root = createPaneWithMenu(primaryStage);
-
+        
 
         TableView<FederalState> tableView = new TableView();
 
@@ -57,6 +57,11 @@ public class Main extends Application {
 
         root.setCenter(tableView);
         Scene scene = new Scene(root, 1300, 700);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX(primaryScreenBounds.getMinX());
+        primaryStage.setY(primaryScreenBounds.getMinY());
+        primaryStage.setWidth(primaryScreenBounds.getWidth());
+        primaryStage.setHeight(primaryScreenBounds.getHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
